@@ -1,271 +1,72 @@
-<img id='eca' src="eca-p16d256-000.png"></img>
-<script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+<html>
+<body>
+  <form onsubmit="goforit(); return false;">
+    <input id="expr" value='110^210' autofocus></input>
+  </form>
+  <canvas id="eca"></canvas>
+</body>
 <script type='text/javascript'>
-  $(document).ready(function(){
-  i = 0; setInterval( function() 
-      { 
-          if(i==256){i=0};
-          console.log(i);
-          var str = ("000" + i).slice(-3)
-          $('#eca').prop('src', "eca-p16d256-" + str + ".png");
-          i = i + 1;
-      }, 85);
-  });
+var width  = 400,
+    height = 400,
+    eca    = document.getElementById('eca'),
+    ctx    = eca.getContext('2d'),
+    px     = ctx.createImageData(1, 1);
+
+eca.width  = width;
+eca.height = height;
+
+if (expr = document.location.search) {
+  document.getElementById('expr').value = expr.slice(1);
+  goforit();
+} else {
+  goforit();
+}
+
+function invoke(rule, row) {
+  var next = [];
+  var len = row.length;
+
+  for (var i = 0; i < len; ++i) {
+    var nib = row[(((i - 1) % len) + len) % len] * 4 + row[i] * 2 + row[(i + 1) % len];
+    next[i] = rule & Math.pow(2, nib) ? 1 : 0;
+  }
+
+  return next;
+};
+
+function goforit() {
+    var expr = document.getElementById('expr').value;
+    var ecas = expr.split(/\D/);
+    var ops  = expr.split(/\d+/).slice(1, -1);
+
+  window.clearInterval(window.ticktock);
+  window.ticktock = window.setInterval(function(){ 
+    var rows = [];
+    for (var i = 0; i < ecas.length; ++i) {
+      var init = ("0".repeat(width) + parseInt(new Date().getTime() / 1000).toString(2)).slice(-width).split("")
+      for(var j=0; j<init.length; j++) { init[j] = +init[j]; }
+      console.log(init.length)
+      rows.push(init.slice(0));
+      console.log(rows)
+    }
+
+    for (var y = 0; y < height; ++y) {
+      for (var e = 0; e < ecas.length; ++e)
+        rows[e] = invoke(ecas[e], rows[e]);
+      for (var x = 0; x < width; ++x) {
+        var bit = rows[0][x];
+        for (var o = 0; o < ops.length; ++o) {
+          switch(ops[o]) {
+            case '&': bit &= rows[o + 1][x]; break;
+            case '|': bit |= rows[o + 1][x]; break;
+            case '^': bit ^= rows[o + 1][x]; break;
+          }
+        }
+        px.data[3] = bit * 255;
+        ctx.putImageData(px, x, y);
+      }
+    }
+  }, 1000);
+};
 </script>
-<div style='display:none;'>
-  <img src="eca-p16d256-001.png"></img>
-  <img src="eca-p16d256-002.png"></img>
-  <img src="eca-p16d256-003.png"></img>
-  <img src="eca-p16d256-004.png"></img>
-  <img src="eca-p16d256-005.png"></img>
-  <img src="eca-p16d256-006.png"></img>
-  <img src="eca-p16d256-007.png"></img>
-  <img src="eca-p16d256-008.png"></img>
-  <img src="eca-p16d256-009.png"></img>
-  <img src="eca-p16d256-010.png"></img>
-  <img src="eca-p16d256-011.png"></img>
-  <img src="eca-p16d256-012.png"></img>
-  <img src="eca-p16d256-013.png"></img>
-  <img src="eca-p16d256-014.png"></img>
-  <img src="eca-p16d256-015.png"></img>
-  <img src="eca-p16d256-016.png"></img>
-  <img src="eca-p16d256-017.png"></img>
-  <img src="eca-p16d256-018.png"></img>
-  <img src="eca-p16d256-019.png"></img>
-  <img src="eca-p16d256-020.png"></img>
-  <img src="eca-p16d256-021.png"></img>
-  <img src="eca-p16d256-022.png"></img>
-  <img src="eca-p16d256-023.png"></img>
-  <img src="eca-p16d256-024.png"></img>
-  <img src="eca-p16d256-025.png"></img>
-  <img src="eca-p16d256-026.png"></img>
-  <img src="eca-p16d256-027.png"></img>
-  <img src="eca-p16d256-028.png"></img>
-  <img src="eca-p16d256-029.png"></img>
-  <img src="eca-p16d256-030.png"></img>
-  <img src="eca-p16d256-031.png"></img>
-  <img src="eca-p16d256-032.png"></img>
-  <img src="eca-p16d256-033.png"></img>
-  <img src="eca-p16d256-034.png"></img>
-  <img src="eca-p16d256-035.png"></img>
-  <img src="eca-p16d256-036.png"></img>
-  <img src="eca-p16d256-037.png"></img>
-  <img src="eca-p16d256-038.png"></img>
-  <img src="eca-p16d256-039.png"></img>
-  <img src="eca-p16d256-040.png"></img>
-  <img src="eca-p16d256-041.png"></img>
-  <img src="eca-p16d256-042.png"></img>
-  <img src="eca-p16d256-043.png"></img>
-  <img src="eca-p16d256-044.png"></img>
-  <img src="eca-p16d256-045.png"></img>
-  <img src="eca-p16d256-046.png"></img>
-  <img src="eca-p16d256-047.png"></img>
-  <img src="eca-p16d256-048.png"></img>
-  <img src="eca-p16d256-049.png"></img>
-  <img src="eca-p16d256-050.png"></img>
-  <img src="eca-p16d256-051.png"></img>
-  <img src="eca-p16d256-052.png"></img>
-  <img src="eca-p16d256-053.png"></img>
-  <img src="eca-p16d256-054.png"></img>
-  <img src="eca-p16d256-055.png"></img>
-  <img src="eca-p16d256-056.png"></img>
-  <img src="eca-p16d256-057.png"></img>
-  <img src="eca-p16d256-058.png"></img>
-  <img src="eca-p16d256-059.png"></img>
-  <img src="eca-p16d256-060.png"></img>
-  <img src="eca-p16d256-061.png"></img>
-  <img src="eca-p16d256-062.png"></img>
-  <img src="eca-p16d256-063.png"></img>
-  <img src="eca-p16d256-064.png"></img>
-  <img src="eca-p16d256-065.png"></img>
-  <img src="eca-p16d256-066.png"></img>
-  <img src="eca-p16d256-067.png"></img>
-  <img src="eca-p16d256-068.png"></img>
-  <img src="eca-p16d256-069.png"></img>
-  <img src="eca-p16d256-070.png"></img>
-  <img src="eca-p16d256-071.png"></img>
-  <img src="eca-p16d256-072.png"></img>
-  <img src="eca-p16d256-073.png"></img>
-  <img src="eca-p16d256-074.png"></img>
-  <img src="eca-p16d256-075.png"></img>
-  <img src="eca-p16d256-076.png"></img>
-  <img src="eca-p16d256-077.png"></img>
-  <img src="eca-p16d256-078.png"></img>
-  <img src="eca-p16d256-079.png"></img>
-  <img src="eca-p16d256-080.png"></img>
-  <img src="eca-p16d256-081.png"></img>
-  <img src="eca-p16d256-082.png"></img>
-  <img src="eca-p16d256-083.png"></img>
-  <img src="eca-p16d256-084.png"></img>
-  <img src="eca-p16d256-085.png"></img>
-  <img src="eca-p16d256-086.png"></img>
-  <img src="eca-p16d256-087.png"></img>
-  <img src="eca-p16d256-088.png"></img>
-  <img src="eca-p16d256-089.png"></img>
-  <img src="eca-p16d256-090.png"></img>
-  <img src="eca-p16d256-091.png"></img>
-  <img src="eca-p16d256-092.png"></img>
-  <img src="eca-p16d256-093.png"></img>
-  <img src="eca-p16d256-094.png"></img>
-  <img src="eca-p16d256-095.png"></img>
-  <img src="eca-p16d256-096.png"></img>
-  <img src="eca-p16d256-097.png"></img>
-  <img src="eca-p16d256-098.png"></img>
-  <img src="eca-p16d256-099.png"></img>
-  <img src="eca-p16d256-100.png"></img>
-  <img src="eca-p16d256-101.png"></img>
-  <img src="eca-p16d256-102.png"></img>
-  <img src="eca-p16d256-103.png"></img>
-  <img src="eca-p16d256-104.png"></img>
-  <img src="eca-p16d256-105.png"></img>
-  <img src="eca-p16d256-106.png"></img>
-  <img src="eca-p16d256-107.png"></img>
-  <img src="eca-p16d256-108.png"></img>
-  <img src="eca-p16d256-109.png"></img>
-  <img src="eca-p16d256-110.png"></img>
-  <img src="eca-p16d256-111.png"></img>
-  <img src="eca-p16d256-112.png"></img>
-  <img src="eca-p16d256-113.png"></img>
-  <img src="eca-p16d256-114.png"></img>
-  <img src="eca-p16d256-115.png"></img>
-  <img src="eca-p16d256-116.png"></img>
-  <img src="eca-p16d256-117.png"></img>
-  <img src="eca-p16d256-118.png"></img>
-  <img src="eca-p16d256-119.png"></img>
-  <img src="eca-p16d256-120.png"></img>
-  <img src="eca-p16d256-121.png"></img>
-  <img src="eca-p16d256-122.png"></img>
-  <img src="eca-p16d256-123.png"></img>
-  <img src="eca-p16d256-124.png"></img>
-  <img src="eca-p16d256-125.png"></img>
-  <img src="eca-p16d256-126.png"></img>
-  <img src="eca-p16d256-127.png"></img>
-  <img src="eca-p16d256-128.png"></img>
-  <img src="eca-p16d256-129.png"></img>
-  <img src="eca-p16d256-130.png"></img>
-  <img src="eca-p16d256-131.png"></img>
-  <img src="eca-p16d256-132.png"></img>
-  <img src="eca-p16d256-133.png"></img>
-  <img src="eca-p16d256-134.png"></img>
-  <img src="eca-p16d256-135.png"></img>
-  <img src="eca-p16d256-136.png"></img>
-  <img src="eca-p16d256-137.png"></img>
-  <img src="eca-p16d256-138.png"></img>
-  <img src="eca-p16d256-139.png"></img>
-  <img src="eca-p16d256-140.png"></img>
-  <img src="eca-p16d256-141.png"></img>
-  <img src="eca-p16d256-142.png"></img>
-  <img src="eca-p16d256-143.png"></img>
-  <img src="eca-p16d256-144.png"></img>
-  <img src="eca-p16d256-145.png"></img>
-  <img src="eca-p16d256-146.png"></img>
-  <img src="eca-p16d256-147.png"></img>
-  <img src="eca-p16d256-148.png"></img>
-  <img src="eca-p16d256-149.png"></img>
-  <img src="eca-p16d256-150.png"></img>
-  <img src="eca-p16d256-151.png"></img>
-  <img src="eca-p16d256-152.png"></img>
-  <img src="eca-p16d256-153.png"></img>
-  <img src="eca-p16d256-154.png"></img>
-  <img src="eca-p16d256-155.png"></img>
-  <img src="eca-p16d256-156.png"></img>
-  <img src="eca-p16d256-157.png"></img>
-  <img src="eca-p16d256-158.png"></img>
-  <img src="eca-p16d256-159.png"></img>
-  <img src="eca-p16d256-160.png"></img>
-  <img src="eca-p16d256-161.png"></img>
-  <img src="eca-p16d256-162.png"></img>
-  <img src="eca-p16d256-163.png"></img>
-  <img src="eca-p16d256-164.png"></img>
-  <img src="eca-p16d256-165.png"></img>
-  <img src="eca-p16d256-166.png"></img>
-  <img src="eca-p16d256-167.png"></img>
-  <img src="eca-p16d256-168.png"></img>
-  <img src="eca-p16d256-169.png"></img>
-  <img src="eca-p16d256-170.png"></img>
-  <img src="eca-p16d256-171.png"></img>
-  <img src="eca-p16d256-172.png"></img>
-  <img src="eca-p16d256-173.png"></img>
-  <img src="eca-p16d256-174.png"></img>
-  <img src="eca-p16d256-175.png"></img>
-  <img src="eca-p16d256-176.png"></img>
-  <img src="eca-p16d256-177.png"></img>
-  <img src="eca-p16d256-178.png"></img>
-  <img src="eca-p16d256-179.png"></img>
-  <img src="eca-p16d256-180.png"></img>
-  <img src="eca-p16d256-181.png"></img>
-  <img src="eca-p16d256-182.png"></img>
-  <img src="eca-p16d256-183.png"></img>
-  <img src="eca-p16d256-184.png"></img>
-  <img src="eca-p16d256-185.png"></img>
-  <img src="eca-p16d256-186.png"></img>
-  <img src="eca-p16d256-187.png"></img>
-  <img src="eca-p16d256-188.png"></img>
-  <img src="eca-p16d256-189.png"></img>
-  <img src="eca-p16d256-190.png"></img>
-  <img src="eca-p16d256-191.png"></img>
-  <img src="eca-p16d256-192.png"></img>
-  <img src="eca-p16d256-193.png"></img>
-  <img src="eca-p16d256-194.png"></img>
-  <img src="eca-p16d256-195.png"></img>
-  <img src="eca-p16d256-196.png"></img>
-  <img src="eca-p16d256-197.png"></img>
-  <img src="eca-p16d256-198.png"></img>
-  <img src="eca-p16d256-199.png"></img>
-  <img src="eca-p16d256-200.png"></img>
-  <img src="eca-p16d256-201.png"></img>
-  <img src="eca-p16d256-202.png"></img>
-  <img src="eca-p16d256-203.png"></img>
-  <img src="eca-p16d256-204.png"></img>
-  <img src="eca-p16d256-205.png"></img>
-  <img src="eca-p16d256-206.png"></img>
-  <img src="eca-p16d256-207.png"></img>
-  <img src="eca-p16d256-208.png"></img>
-  <img src="eca-p16d256-209.png"></img>
-  <img src="eca-p16d256-210.png"></img>
-  <img src="eca-p16d256-211.png"></img>
-  <img src="eca-p16d256-212.png"></img>
-  <img src="eca-p16d256-213.png"></img>
-  <img src="eca-p16d256-214.png"></img>
-  <img src="eca-p16d256-215.png"></img>
-  <img src="eca-p16d256-216.png"></img>
-  <img src="eca-p16d256-217.png"></img>
-  <img src="eca-p16d256-218.png"></img>
-  <img src="eca-p16d256-219.png"></img>
-  <img src="eca-p16d256-220.png"></img>
-  <img src="eca-p16d256-221.png"></img>
-  <img src="eca-p16d256-222.png"></img>
-  <img src="eca-p16d256-223.png"></img>
-  <img src="eca-p16d256-224.png"></img>
-  <img src="eca-p16d256-225.png"></img>
-  <img src="eca-p16d256-226.png"></img>
-  <img src="eca-p16d256-227.png"></img>
-  <img src="eca-p16d256-228.png"></img>
-  <img src="eca-p16d256-229.png"></img>
-  <img src="eca-p16d256-230.png"></img>
-  <img src="eca-p16d256-231.png"></img>
-  <img src="eca-p16d256-232.png"></img>
-  <img src="eca-p16d256-233.png"></img>
-  <img src="eca-p16d256-234.png"></img>
-  <img src="eca-p16d256-235.png"></img>
-  <img src="eca-p16d256-236.png"></img>
-  <img src="eca-p16d256-237.png"></img>
-  <img src="eca-p16d256-238.png"></img>
-  <img src="eca-p16d256-239.png"></img>
-  <img src="eca-p16d256-240.png"></img>
-  <img src="eca-p16d256-241.png"></img>
-  <img src="eca-p16d256-242.png"></img>
-  <img src="eca-p16d256-243.png"></img>
-  <img src="eca-p16d256-244.png"></img>
-  <img src="eca-p16d256-245.png"></img>
-  <img src="eca-p16d256-246.png"></img>
-  <img src="eca-p16d256-247.png"></img>
-  <img src="eca-p16d256-248.png"></img>
-  <img src="eca-p16d256-249.png"></img>
-  <img src="eca-p16d256-250.png"></img>
-  <img src="eca-p16d256-251.png"></img>
-  <img src="eca-p16d256-252.png"></img>
-  <img src="eca-p16d256-253.png"></img>
-  <img src="eca-p16d256-254.png"></img>
-  <img src="eca-p16d256-255.png"></img>
-</div>
+</html>
