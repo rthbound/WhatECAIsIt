@@ -1,14 +1,44 @@
 <html>
-<body>
+<head>
   <style>#forkongithub a{background:#000;color:#fff;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;}#forkongithub a:hover{background:#c11;color:#fff;}#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}#forkongithub a::after{bottom:1px;top:auto;}@media screen and (min-width:800px){#forkongithub{position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;z-index:9999;}#forkongithub a{width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);}}</style><span id="forkongithub"><a href="https://github.com/rthbound/WhatECAIsIt">Fork me on GitHub</a></span>
-  <form onsubmit="goforit(); return false;">
+</head>
+<body>
+  <form id='form' onsubmit="goforit(); return false;">
     <input id="expr" value='110^210' autofocus></input>
   </form>
   <canvas id="eca"></canvas>
+  <p>
+    <dl>
+      <dt>Examples:</dt>
+      <dd>
+        <ul>
+          <li>
+            <a href="#65^110" onclick="document.getElementById('expr').value='65^110';goforit()">65^110</a>
+          </li>
+          <li>
+            <a href="#65^1" onclick="document.getElementById('expr').value='65^1'; goforit(); return false;">65^1</a>
+          </li>
+        </ul>
+      </dd>
+      <dt>Rules:</dt>
+      <dd>0-255</dt>
+      <dt>Operators:</dt>
+      <dd>
+        <dl>
+          <dt>OR</dt>
+          <dd>|</dd>
+          <dt>XOR</dt>
+          <dd>^</dd>
+          <dt>AND</dt>
+          <dd>&amp;</dd>
+        </dl>
+      </dd>
+    </dl>
+  </p>
 </body>
 <script type='text/javascript'>
-var width  = 400,
-    height = 400,
+var width  = 132,
+    height = 132,
     eca    = document.getElementById('eca'),
     ctx    = eca.getContext('2d'),
     px     = ctx.createImageData(1, 1);
